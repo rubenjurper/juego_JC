@@ -5,7 +5,6 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-//COMENTARIO GITHUB
 public class ControlPlayer : MonoBehaviour
 {
     public int speed;
