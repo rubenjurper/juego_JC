@@ -7,14 +7,15 @@ using UnityEngine;
 public class ControlHUD : MonoBehaviour
 {
     public TextMeshProUGUI textTime;
-    public TextMeshProUGUI textLife;
+    public TextMeshProUGUI textScore;
+    public GameObject[] hearts;
 
 
-
-    public void SetTextLife(int numLife)
+    public void desactivateHearts(int indice)
     {
-        textLife.text = numLife.ToString();
+        hearts[indice].SetActive(false);
     }
+
 
 
     public void SetTextTime(float numTime)
@@ -24,6 +25,13 @@ public class ControlHUD : MonoBehaviour
         int numTimeSeconds = numTimeInteger % 60;
         textTime.text = numTimeMinutes.ToString("00") + ":" + numTimeSeconds.ToString("00");
     }
+
+    public void SetTextScore(int numScore)
+    {
+        textScore.text = "Score: " + numScore;
+    }
+
+
 
     public void SetTextLost()
     {

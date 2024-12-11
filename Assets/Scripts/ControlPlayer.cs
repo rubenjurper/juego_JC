@@ -15,10 +15,11 @@ public class ControlPlayer : MonoBehaviour
     public LayerMask layerFloor;
     private Animator animator;
     private bool animationPlay;
-    public int numLife;
+    private int scoreGeneral; //--------------PUNTUACION
     private bool vulnerable;
     private float FirstTime; //----------------TIEMPO
     public float timeTotal; //----------------TIEMPO
+    private int life = 3;
 
     private bool touchFloor;
     private Rigidbody2D rb;
@@ -34,7 +35,9 @@ public class ControlPlayer : MonoBehaviour
         animationPlay = true;
         vulnerable = true;
         controlHUD = HUD.GetComponent<ControlHUD>();
-        controlHUD.SetTextLife(numLife);
+        scoreGeneral = 0; //---------------------PUNTUACION
+        controlHUD.SetTextScore(scoreGeneral);
+
         FirstTime = Time.time; //----------------TIEMPO
     }
     private void FixedUpdate()
@@ -44,6 +47,8 @@ public class ControlPlayer : MonoBehaviour
         phisicPlayer.velocity = new Vector2(inputX * speed, phisicPlayer.velocity.y);
         AnimationPlayer();
     }
+
+
     private void Update()
     {
         if (phisicPlayer.velocity.x > 0) spritePlayer.flipX = false;
@@ -79,20 +84,17 @@ public class ControlPlayer : MonoBehaviour
         }
     }
 
-    public void TakeLife()
+
+    public void loseLife()
     {
-        if (vulnerable)
+        life--;
+        controlHUD.desactivateHearts(life);
+        vulnerable = false;
+        spritePlayer.color = Color.red;
+        if (life == 0) DeathPlayer();
+        else if (life > 0)
         {
-            numLife--;
-            controlHUD.SetTextLife(numLife);
-            //AudioSource.PlayOneShot(hurtEnemy);
-            vulnerable = false;
-            spritePlayer.color = Color.red;
-            if (numLife == 0) DeathPlayer();
-            else if (numLife > 0)
-            {
-                Invoke("MakeVulnerable", 1f);
-            }
+            Invoke("MakeVulnerable", 1f);
         }
     }
 
@@ -108,5 +110,11 @@ public class ControlPlayer : MonoBehaviour
         spritePlayer.color = Color.white;
     }
 
+
+    public void AddScore(int score)
+    {
+        scoreGeneral += score;
+        controlHUD.SetTextScore(scoreGeneral);
+    }
     
 }
