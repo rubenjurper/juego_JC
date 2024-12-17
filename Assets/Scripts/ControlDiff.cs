@@ -26,6 +26,6 @@ public class ControlDiff : MonoBehaviour
 
     private void CargarEscena()
     {
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("Nivel 1");
     }
 }

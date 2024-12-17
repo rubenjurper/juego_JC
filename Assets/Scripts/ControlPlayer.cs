@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System;
 public class ControlPlayer : MonoBehaviour
 {
     public int speed;
@@ -25,6 +25,13 @@ public class ControlPlayer : MonoBehaviour
     private Rigidbody2D rb;
     public Canvas HUD; //----------------TIEMPO
     private ControlHUD controlHUD; //----------------TIEMPO
+    public event EventHandler GameOverPlayer;
+
+    //private AudioSource audioSource;
+    //public AudioClip jump_sound;
+    //public AudioClip bread_sound;
+
+    float xInitial, yInitial;
 
     private void Start()
     {
@@ -39,6 +46,11 @@ public class ControlPlayer : MonoBehaviour
         controlHUD.SetTextScore(scoreGeneral);
 
         FirstTime = Time.time; //----------------TIEMPO
+
+        //audioSource = GetComponent<AudioSource>();
+
+        xInitial = transform.position.x;
+        yInitial = transform.position.y;
     }
     private void FixedUpdate()
     {
@@ -100,7 +112,7 @@ public class ControlPlayer : MonoBehaviour
 
     private void DeathPlayer()
     {
-        controlHUD.SetTextLost();
+        GameOverPlayer?.Invoke(this, EventArgs.Empty);
         Time.timeScale = 0f;
     }
 
@@ -115,6 +127,12 @@ public class ControlPlayer : MonoBehaviour
     {
         scoreGeneral += score;
         controlHUD.SetTextScore(scoreGeneral);
+    }
+
+    public void ResetPosition()
+    {
+        transform.position = new Vector3(xInitial, yInitial, 0);
+        loseLife();
     }
     
 }
