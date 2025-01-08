@@ -28,13 +28,8 @@ public class ControlHUD : MonoBehaviour
 
     public void SetTextScore(int numScore)
     {
-        textScore.text = "Score: " + numScore;
+        textScore.text = "Score: " + numScore.ToString();
     }
 
 
-
-    public void SetTextLost()
-    {
-
-    }
 }

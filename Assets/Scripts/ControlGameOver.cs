@@ -31,4 +31,9 @@ public class ControlGameOver : MonoBehaviour
     {
         SceneManager.LoadScene(name);
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
 }
