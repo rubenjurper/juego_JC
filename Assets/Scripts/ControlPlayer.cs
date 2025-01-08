@@ -9,7 +9,7 @@ public class ControlPlayer : MonoBehaviour
     public int speed;
     private Rigidbody2D phisicPlayer;
     private SpriteRenderer spritePlayer;
-    public float jumpForce = 10f;
+    public float jumpForce = 8f;
     public float rayFloor = 0.1f;
     public LayerMask layerFloor;
     private Animator animator;
@@ -26,10 +26,6 @@ public class ControlPlayer : MonoBehaviour
     private ControlHUD controlHUD; //----------------TIEMPO
     public event EventHandler GameOverPlayer;
 
-    //private AudioSource audioSource;
-    //public AudioClip jump_sound;
-    //public AudioClip bread_sound;
-
     float xInitial, yInitial;
 
     private void Start()
@@ -41,12 +37,11 @@ public class ControlPlayer : MonoBehaviour
         animationPlay = true;
         vulnerable = true;
         controlHUD = HUD.GetComponent<ControlHUD>();
-        scoreGeneral = 0; //---------------------PUNTUACION
+        scoreGeneral = GameObject.FindGameObjectsWithTag("Object").Length;
         controlHUD.SetTextScore(scoreGeneral);
 
         FirstTime = Time.time; //----------------TIEMPO
 
-        //audioSource = GetComponent<AudioSource>();
 
         xInitial = transform.position.x;
         yInitial = transform.position.y;
@@ -98,14 +93,22 @@ public class ControlPlayer : MonoBehaviour
 
     public void loseLife()
     {
-        life--;
-        controlHUD.desactivateHearts(life);
-        vulnerable = false;
-        spritePlayer.color = Color.red;
-        if (life == 0) DeathPlayer();
-        else if (life > 0)
+        if (vulnerable)
         {
-            Invoke("MakeVulnerable", 1f);
+            life--;
+            controlHUD.desactivateHearts(life);
+            spritePlayer.color = Color.red;
+            if (life == 0)
+            {
+                vulnerable = false;
+                DeathPlayer();
+
+            }
+            else if (life > 0 )
+            {
+                vulnerable = false;
+                Invoke("MakeVulnerable", 1.5f);
+            }
         }
     }
 
@@ -122,9 +125,9 @@ public class ControlPlayer : MonoBehaviour
     }
 
 
-    public void AddScore(int score)
+    public void AddScore()
     {
-        scoreGeneral += score;
+        scoreGeneral--;
         controlHUD.SetTextScore(scoreGeneral);
     }
 
@@ -133,5 +136,5 @@ public class ControlPlayer : MonoBehaviour
         transform.position = new Vector3(xInitial, yInitial, 0);
         loseLife();
     }
-    
+
 }

@@ -12,7 +12,9 @@ public class ControlComplete : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        numObjects = GameObject.FindGameObjectsWithTag("Object").Length;
+        takenObjects = 0;
+        
+        numObjects= GameObject.FindGameObjectsWithTag("Object").Length;
     }
 
     private void ActivateExit()
