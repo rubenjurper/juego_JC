@@ -17,6 +17,7 @@ public class ControlEnemy : MonoBehaviour
         posInitial = transform.position;
         moveToEnd = true;
 
+
         //flipEnemy = bat.GetComponent<FlipEnemy>();
     }
 
@@ -32,6 +33,8 @@ public class ControlEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<ControlPlayer>().loseLife();
+        if (collision.gameObject.CompareTag("Attack"))
+            paraliza();
     }
 
     private void DeathPlayer()
@@ -39,4 +42,18 @@ public class ControlEnemy : MonoBehaviour
         //ControlHUD.SetTextLost();
         Time.timeScale = 0f;
     }
+
+
+    IEnumerator waiter()
+    {
+        speedEnemy = 0f;
+        yield return new WaitForSeconds(1);
+        speedEnemy = 3f;
+
+    }
+    private void paraliza()
+    {
+        StartCoroutine(waiter());
+    }
+
 }
